@@ -4,7 +4,10 @@ import model.Users;
 import usersDAO.*;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by User on 05.03.2017.
@@ -16,10 +19,7 @@ public class ServerServiceImp implements ServerService {
 
 
     private ServerServiceImp() {
-
-        factory = DAOFactory.getFactory(1);
-
-
+        factory = DAOFactory.getFactory(getParamOrm());
     }
 
     public static synchronized ServerServiceImp createService() {
@@ -29,6 +29,22 @@ public class ServerServiceImp implements ServerService {
         }
         return ourInstance;
     }
+    public String getParamOrm() {
+        Properties prop = new Properties();
+        String fileName = "config.properties";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+        try {
+            prop.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String ormPar = prop.getProperty("orm");
+
+
+        return ormPar;
+    }
+
     @Override
     public Users getUserName(String name) {
         return factory.getUserDAO().getUserByName(name);

@@ -1,5 +1,6 @@
 package usersDAO;
 
+import connect.HibernateConnect;
 import model.Users;
 
 import javax.persistence.EntityManager;
@@ -14,8 +15,8 @@ import java.util.List;
 public class UserHibernateDAOImp implements UserDAO {
 
 
-    public EntityManagerFactory em = Persistence.createEntityManagerFactory("TEST");
-    EntityManager entityManager = em.createEntityManager();
+
+    EntityManager entityManager = HibernateConnect.getConnet();
 
 
     public void addUser(Users user) {
@@ -32,9 +33,9 @@ public class UserHibernateDAOImp implements UserDAO {
 
     public void updateUser(Users user) {
         entityManager.getTransaction().begin();
-        if (entityManager.find(Users.class, user.getId()) == null) {
+        /*if (entityManager.find(Users.class, user.getId()) == null) {
             throw new IllegalArgumentException("Unknown employee id: " + user.getId());
-        }
+        }*/
         entityManager.merge(user);
         entityManager.getTransaction().commit();
     }

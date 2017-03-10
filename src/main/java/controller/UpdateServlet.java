@@ -36,13 +36,10 @@ public class UpdateServlet extends HttpServlet {
 }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int id = Integer.parseInt(request.getParameter("id"));
         Users user = new Users();
         user = service.getUserId(id);
         request.setAttribute("user", user);
         request.getRequestDispatcher("upd.jsp").forward(request, response);
-
-
     }
 }

@@ -1,5 +1,6 @@
 package usersDAO;
 
+import connect.JdbsConnect;
 import model.Users;
 
 import java.sql.*;
@@ -11,13 +12,12 @@ import java.util.List;
  */
 public class UserJdbcDAOImp implements UserDAO {
 
-    private static Connect connect = new Connect();
-    private static Executor executor = new Executor(connect.getMysqlConnection());
+    private static JdbsConnect jdbsConnect = new JdbsConnect();
+    private static Executor executor = new Executor(jdbsConnect.getMysqlConnection());
     private static UserJdbcDAOImp instance = null;
 
     public UserJdbcDAOImp() {
     }
-
 
 
     public synchronized static UserJdbcDAOImp getUserDAO() {
@@ -77,7 +77,7 @@ public class UserJdbcDAOImp implements UserDAO {
     public void updateUser(Users user) {
         try {
             executor.getConnection().setAutoCommit(false);
-            executor.execUpdate("UpdateServlet users set name='" + user.getName() + "', password='" + user.getPassword() + "', role='" + user.getRole() + "' where id='" + user.getId() + "'");
+            executor.execUpdate("update users set name='" + user.getName() + "', password='" + user.getPassword() + "', role='" + user.getRole() + "' where id='" + user.getId() + "'");
             executor.getConnection().commit();
             executor.getConnection().setAutoCommit(true);
         } catch (SQLException e) {
@@ -91,23 +91,25 @@ public class UserJdbcDAOImp implements UserDAO {
     }
 
     public List<Users> getAllUsers() {
-        List<Users> users = new ArrayList<Users>();
         try {
-            Statement statement = executor.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from users");
-            while (rs.next()) {
-                Users user = new Users();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setRole(rs.getString("role"));
-                users.add(user);
-            }
+            return executor.execQuery("select * from users", result -> {
+                List<Users> listUsers = new ArrayList<>();
+                while (result.next()) {
+                    Users user = new Users();
+                    user.setId(result.getInt("id"));
+                    user.setName(result.getString("name"));
+                    user.setPassword(result.getString("password"));
+                    user.setRole(result.getString("role"));
+                    listUsers.add(user);
+                }
+                return listUsers;
+            });
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return users;
     }
+
 
     public Users getUserById(int id) {
 

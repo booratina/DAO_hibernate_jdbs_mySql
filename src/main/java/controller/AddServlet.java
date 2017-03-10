@@ -16,7 +16,9 @@ import java.io.IOException;
  */
 @WebServlet("/add")
 public class AddServlet extends HttpServlet {
-    private static ServerService service = ServerServiceImp.createService();;
+    private static ServerService service = ServerServiceImp.createService();
+
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Users user = new Users();
@@ -25,11 +27,10 @@ public class AddServlet extends HttpServlet {
         user.setRole(request.getParameter("role"));
         String userid = request.getParameter("id");
 
-
-            service.addUser(user);
+        service.addUser(user);
 
         request.setAttribute("list", service.getAllUsers());
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
 
     }
 

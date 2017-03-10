@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+
 
 
 /**
@@ -28,13 +28,11 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-/*
 
         req.setAttribute("list", service.getAllUsers());
         req.getRequestDispatcher("/index.jsp").forward(req,resp);
-*/
 
-        service.createTable();
+       /* service.createTable();
 
         String forward = "";
         String action = req.getParameter("action");
@@ -55,13 +53,13 @@ public class UserController extends HttpServlet {
             forward = INSERT_OR_EDIT;
         }
         RequestDispatcher view = req.getRequestDispatcher(forward);
-        view.forward(req, resp);
+        view.forward(req, resp);*/
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         Users user = new Users();
+      /*   Users user = new Users();
         user.setName(req.getParameter("name"));
         user.setPassword(req.getParameter("password"));
         user.setRole(req.getParameter("role"));
@@ -75,7 +73,7 @@ public class UserController extends HttpServlet {
         }
         RequestDispatcher view = req.getRequestDispatcher(LIST_USER);
         req.setAttribute("users", service.getAllUsers());
-        view.forward(req, resp);
+        view.forward(req, resp);*/
     }
 }
 
