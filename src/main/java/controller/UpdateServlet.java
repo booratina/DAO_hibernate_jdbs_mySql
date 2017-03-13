@@ -1,10 +1,9 @@
 package controller;
 
-import model.Users;
-import service.ServerService;
-import service.ServerServiceImp;
+import model.User;
+import service.ServiceFactory;
+import service.UserService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +16,19 @@ import java.io.IOException;
  */
 @WebServlet("/update")
 public class UpdateServlet extends HttpServlet {
-    private static ServerService service = ServerServiceImp.createService();
+    private static UserService service;
+
+    static {
+        try {
+            service = ServiceFactory.getService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Users user = new Users();
+        User user = new User();
         user.setName(request.getParameter("name"));
         user.setPassword(request.getParameter("password"));
         user.setRole(request.getParameter("role"));
@@ -37,7 +44,7 @@ public class UpdateServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Users user = new Users();
+        User user ;
         user = service.getUserId(id);
         request.setAttribute("user", user);
         request.getRequestDispatcher("upd.jsp").forward(request, response);

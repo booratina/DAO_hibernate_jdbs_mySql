@@ -1,11 +1,10 @@
 package controller;
 
-import model.Users;
-import service.ServerService;
-import service.ServerServiceImp;
+import service.ServiceFactory;
+import service.UserService;
+import service.UserServiceImp;
 
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,15 @@ import java.io.IOException;
  */
 @WebServlet("/delete")
 public class DeleteServlet extends HttpServlet {
-    private static ServerService service = ServerServiceImp.createService();;
+    private static UserService service;
+
+    static {
+        try {
+            service = ServiceFactory.getService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

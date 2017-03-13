@@ -1,7 +1,7 @@
 package usersDAO;
 
 import connect.JdbsConnect;
-import model.Users;
+import model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class UserJdbcDAOImp implements UserDAO {
 
     private static JdbsConnect jdbsConnect = new JdbsConnect();
     private static Executor executor = new Executor(jdbsConnect.getMysqlConnection());
-    private static UserJdbcDAOImp instance = null;
+    private static volatile UserJdbcDAOImp instance = null;
 
     public UserJdbcDAOImp() {
     }
@@ -42,7 +42,7 @@ public class UserJdbcDAOImp implements UserDAO {
         }
     }
 
-    public void addUser(Users user) {
+    public void addUser(User user) {
         try {
             executor.getConnection().setAutoCommit(false);
             executor.execUpdate("insert into users set name='" + user.getName() + "', password='" + user.getPassword() + "', role='" + user.getRole() + "'");
@@ -74,7 +74,7 @@ public class UserJdbcDAOImp implements UserDAO {
         }
     }
 
-    public void updateUser(Users user) {
+    public void updateUser(User user) {
         try {
             executor.getConnection().setAutoCommit(false);
             executor.execUpdate("update users set name='" + user.getName() + "', password='" + user.getPassword() + "', role='" + user.getRole() + "' where id='" + user.getId() + "'");
@@ -90,12 +90,12 @@ public class UserJdbcDAOImp implements UserDAO {
         }
     }
 
-    public List<Users> getAllUsers() {
+    public List<User> getAllUsers() {
         try {
             return executor.execQuery("select * from users", result -> {
-                List<Users> listUsers = new ArrayList<>();
+                List<User> listUsers = new ArrayList<>();
                 while (result.next()) {
-                    Users user = new Users();
+                    User user = new User();
                     user.setId(result.getInt("id"));
                     user.setName(result.getString("name"));
                     user.setPassword(result.getString("password"));
@@ -111,12 +111,12 @@ public class UserJdbcDAOImp implements UserDAO {
     }
 
 
-    public Users getUserById(int id) {
+    public User getUserById(int id) {
 
         try {
             return executor.execQuery("select * from users where id=" + id, result -> {
                 result.next();
-                return new Users(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
+                return new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
             });
         } catch (SQLException e) {
             e.printStackTrace();
@@ -124,11 +124,11 @@ public class UserJdbcDAOImp implements UserDAO {
         }
     }
 
-    public Users getUserByName(String name) {
+    public User getUserByName(String name) {
         try {
             return executor.execQuery("select * from users where name=" + name, result -> {
                 result.next();
-                return new Users(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
+                return new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4));
             });
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,17 +14,15 @@
 <body>
 
 <form method="POST" action='/update' name="formUpdUser">
-    User ID : <input type="text" readonly="readonly" name="id"
-                     value="<c:out value="${user.id}" />"/> <br/>
-    UPDATE : <input
-        type="text" name="name"
-        value="<c:out value="${user.name}" />"/> <br/>
-    password : <input
-        type="text" name="password"
-        value="<c:out value="${user.password}" />"/> <br/>
-    role : <input
-        type="text" name="role"
-        value="<c:out value="${user.role}" />"/> <br/>
+    User ID :
+    <input type="text" readonly="readonly" name="id"
+           value="<c:out value="${user.id}" />"/> <br/>
+    name :
+    <input type="text" name="name"  value="${user.name}"/> <br/>
+
+    password : <input type="text" name="password"  value="${user.password}"/> <br/>
+
+    role :  <input type="text" name="role"  value="${user.role}"/> <br/>
 
     <p><input type="submit"></p>
 </form>

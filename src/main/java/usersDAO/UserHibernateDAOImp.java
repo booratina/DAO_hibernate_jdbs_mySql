@@ -1,11 +1,9 @@
 package usersDAO;
 
 import connect.HibernateConnect;
-import model.Users;
+import model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class UserHibernateDAOImp implements UserDAO {
     EntityManager entityManager = HibernateConnect.getConnet();
 
 
-    public void addUser(Users user) {
+    public void addUser(User user) {
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
@@ -31,27 +29,27 @@ public class UserHibernateDAOImp implements UserDAO {
         entityManager.getTransaction().commit();
     }
 
-    public void updateUser(Users user) {
+    public void updateUser(User user) {
         entityManager.getTransaction().begin();
-        /*if (entityManager.find(Users.class, user.getId()) == null) {
+        /*if (entityManager.find(User.class, user.getId()) == null) {
             throw new IllegalArgumentException("Unknown employee id: " + user.getId());
         }*/
         entityManager.merge(user);
         entityManager.getTransaction().commit();
     }
 
-    public List<Users> getAllUsers() {
-        Query query = entityManager.createQuery("SELECT e FROM Users e");
-        return (List<Users>) query.getResultList();
+    public List<User> getAllUsers() {
+        Query query = entityManager.createQuery("SELECT e FROM User e");
+        return (List<User>) query.getResultList();
     }
 
-    public Users getUserById(int userId) {
+    public User getUserById(int userId) {
 
-        return entityManager.find(Users.class, userId);
+        return entityManager.find(User.class, userId);
     }
 
-    public Users getUserByName(String name) {
-        return entityManager.find(Users.class, name);
+    public User getUserByName(String name) {
+        return entityManager.find(User.class, name);
     }
 
     public void createTable() {

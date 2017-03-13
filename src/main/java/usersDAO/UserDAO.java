@@ -1,6 +1,6 @@
 package usersDAO;
 
-import model.Users;
+import model.User;
 
 import java.util.List;
 
@@ -8,20 +8,20 @@ import java.util.List;
  * Created by User on 06.03.2017.
  */
 public interface UserDAO {
-    public void addUser(Users user);
+     void addUser(User user);
 
-    public void deleteUser(int userId);
+     void deleteUser(int userId);
 
-    public void updateUser(Users user);
+     void updateUser(User user);
 
-    public List<Users> getAllUsers();
+     List<User> getAllUsers();
 
-    public Users getUserById(int userId);
+     User getUserById(int userId);
 
-    public Users getUserByName(String name);
+     User getUserByName(String name);
 
 
-    public void createTable();
+     void createTable();
 
-    public void dropTable();
+     void dropTable();
 }

@@ -1,8 +1,9 @@
 package controller;
 
-import model.Users;
-import service.ServerService;
-import service.ServerServiceImp;
+import model.User;
+import service.ServiceFactory;
+import service.UserService;
+import service.UserServiceImp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,12 +17,20 @@ import java.io.IOException;
  */
 @WebServlet("/add")
 public class AddServlet extends HttpServlet {
-    private static ServerService service = ServerServiceImp.createService();
+    private static UserService service;
+
+    static {
+        try {
+            service = ServiceFactory.getService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Users user = new Users();
+        User user = new User();
         user.setName(request.getParameter("name"));
         user.setPassword(request.getParameter("password"));
         user.setRole(request.getParameter("role"));

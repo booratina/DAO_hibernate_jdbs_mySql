@@ -10,22 +10,18 @@ public abstract class DAOFactory {
     public abstract UserDAO getUserDAO();
 
 
-    public static DAOFactory getFactory(String param) {
-        int key = 0;
+    public static UserDAO getUserDAO(String param) throws Exception {
 
         if ("jdbs".equals(param)) {
-            key = 1;
+
+            return new UserJdbcDAOImp();
         }
         if ("hibernate".equals(param)) {
-            key = 2;
+
+            return new UserHibernateDAOImp();
         }
-        switch (key) {
-            case 1:
-                return new JdbsFactory();
-            case 2:
-                return new HibernateFactory();
-            default:
-                return null;
-        }
+
+        throw new Exception("invalid orm conf value");
+
     }
 }

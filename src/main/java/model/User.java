@@ -1,7 +1,6 @@
 package model;
 
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,29 +9,33 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "users")
-public class Users implements Serializable {
+public class User implements Serializable {
+
     @Column(name = "name", unique = true, updatable = false)
     private String name;
+
     @Column(name = "role", unique = true, updatable = false)
     private String role;
+
     @Column(name = "password", unique = true, updatable = false)
     private String password;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @SuppressWarnings("UnusedDeclaration")
-    public Users(int id, String name, String password, String role) {
+    public User(int id, String name, String password, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.role = role;
     }
-    @SuppressWarnings("UnusedDeclaration")
-    public Users() {
-    }
 
+    @SuppressWarnings("UnusedDeclaration")
+    public User() {
+    }
 
 
     public String getName() {
